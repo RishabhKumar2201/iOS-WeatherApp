@@ -18,15 +18,15 @@ This repository contains an Xcode project built with Swift. It is structured to 
 
 - **Landing Page (List View)**
 
-<img src="LandingView.png" width="400" alt="LandingView Page ">
+<img src="LandingPage.jpeg" width="400" alt="LandingView Page ">
 
 - **ListView Page**
 
-<img src="ListView.png" width="400" alt="ListView Page">
+<img src="ListView.jpeg" width="400" alt="ListView Page">
 
 - **DetailsView Page**
 
-<img src="DetailsView.png" width="400" alt="DetailsView Page">
+<img src="DetailsView.jpeg" width="400" alt="DetailsView Page">
 
 
 
