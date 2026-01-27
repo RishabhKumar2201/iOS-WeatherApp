@@ -26,7 +26,7 @@ This repository contains an Xcode project built with Swift. It is structured to 
 
 - **DetailsView Page**
 
-<img src="DetailsView.jpeg" width="400" alt="DetailsView Page">
+<img src="DetailsView 2.jpeg" width="400" alt="DetailsView Page">
 
 
 
