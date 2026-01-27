@@ -10,7 +10,7 @@
           "red" : "12"
         }
       },
-      "idiom" : "universal"
+      "idiom" : "iphone"
     },
     {
       "appearances" : [
@@ -19,7 +19,7 @@
           "value" : "dark"
         }
       ],
-      "idiom" : "universal"
+      "idiom" : "iphone"
     }
   ],
   "info" : {
