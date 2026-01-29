@@ -7,7 +7,8 @@ struct DetailView: View {
     @State private var error: Error?
     
     @State private var timer: Timer?
-
+    
+    @State private var dataSource: WeatherDataSource?
     
     let weatherService: WeatherServiceProtocol
     
@@ -25,6 +26,12 @@ struct DetailView: View {
                         .padding()
                 } else if let weather = weatherResponse {
                     realTimeWeatherView(weather: weather, location: location)
+                    if let source = dataSource {
+                        Text(source == .api ? "Live Data • API" : "Offline Data • Core Data")
+                            .font(.caption)
+                            .foregroundStyle(source == .api ? .green : .orange)
+                    }
+
                 } else {
                     originalStaticView(location: location)
                 }
@@ -74,34 +81,75 @@ struct DetailView: View {
 //        isLoading = false
 //    }
     
+//    func fetchWeather() async {
+//        isLoading = true
+//        error = nil
+//        
+//        let persistence = PersistenceController.shared
+//        
+//        // 1️⃣ Check Core Data first
+//        if let cached = persistence.fetchCachedWeather(
+//            latitude: location.latitude,
+//            longitude: location.longitude
+//        ),
+//        persistence.isCacheValid(cached) {
+//            
+//            weatherResponse = cached.toWeatherResponse()
+//            isLoading = false
+//            return
+//        }
+//        
+//        // 2️⃣ Fetch from API
+//        do {
+//            let freshWeather = try await weatherService.fetchWeather(
+//                latitude: location.latitude,
+//                longitude: location.longitude
+//            )
+//            
+//            weatherResponse = freshWeather
+//            
+//            // 3️⃣ Save to Core Data
+//            persistence.saveWeather(
+//                location: location,
+//                weather: freshWeather
+//            )
+//            
+//        } catch {
+//            self.error = error
+//        }
+//        
+//        isLoading = false
+//    }
+    
     func fetchWeather() async {
         isLoading = true
         error = nil
         
         let persistence = PersistenceController.shared
         
-        // 1️⃣ Check Core Data first
         if let cached = persistence.fetchCachedWeather(
             latitude: location.latitude,
             longitude: location.longitude
         ),
         persistence.isCacheValid(cached) {
             
+            print("📦 DATA FROM CORE DATA")
             weatherResponse = cached.toWeatherResponse()
+            dataSource = .coreData
             isLoading = false
             return
         }
         
-        // 2️⃣ Fetch from API
         do {
+            print("🌐 DATA FROM API")
             let freshWeather = try await weatherService.fetchWeather(
                 latitude: location.latitude,
                 longitude: location.longitude
             )
             
             weatherResponse = freshWeather
+            dataSource = .api
             
-            // 3️⃣ Save to Core Data
             persistence.saveWeather(
                 location: location,
                 weather: freshWeather
@@ -114,4 +162,11 @@ struct DetailView: View {
         isLoading = false
     }
 
+
+}
+
+
+enum WeatherDataSource {
+    case api
+    case coreData
 }

@@ -62,12 +62,30 @@ extension PersistenceController {
         entity.weatherCode = Int16(weather.current.weatherCode)
         
         entity.updatedTime = Date()
-        
+        print("SAVING WEATHER TO CORE DATA")
+
         try? context.save()
     }
 }
 
 extension PersistenceController {
+    
+//    func fetchCachedWeather(
+//        latitude: Double,
+//        longitude: Double
+//    ) -> Locations? {
+//        
+//        let context = container.viewContext
+//        let request: NSFetchRequest<Locations> = Locations.fetchRequest()
+//        
+//        request.predicate = NSPredicate(
+//            format: "latitude == %lf AND longitude == %lf",
+//            latitude,
+//            longitude
+//        )
+//        
+//        return try? context.fetch(request).first
+//    }
     
     func fetchCachedWeather(
         latitude: Double,
@@ -83,8 +101,15 @@ extension PersistenceController {
             longitude
         )
         
-        return try? context.fetch(request).first
+        let result = try? context.fetch(request).first
+        
+        if result != nil {
+            print("CORE DATA HIT for \(latitude), \(longitude)")
+        }
+        
+        return result
     }
+
 }
 
 extension PersistenceController {
