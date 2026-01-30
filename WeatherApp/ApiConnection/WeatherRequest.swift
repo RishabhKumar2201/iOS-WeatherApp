@@ -11,3 +11,7 @@ struct WeatherRequest {
     var latitude: Double
     var longitude: Double
 }
+
+struct addLocation {
+    var name: String
+}

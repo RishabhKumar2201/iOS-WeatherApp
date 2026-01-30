@@ -11,3 +11,6 @@
 
 baseURL = api.open-meteo.com
 path = /v1/forecast
+
+addURL = geocoding-api.open-meteo.com
+addpath = /v1/search

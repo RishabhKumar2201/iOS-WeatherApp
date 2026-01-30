@@ -9,7 +9,7 @@ import Foundation
 
 struct WeatherEndpoint : ApiEndpoint {
     
-    let request: WeatherRequest
+    var request: WeatherRequest
     
     var baseURL: String {
         "https://\(FetchingAPI.baseURL)"

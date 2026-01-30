@@ -26,15 +26,30 @@ enum FetchingAPI{
         return urlString
     }()
     
+    static let addURL : String = {
+        guard let urlString = FetchingAPI.infoDict["addURL"] as? String else{
+            fatalError("addURL is not found")
+        }
+        
+//        guard let url = URL(string: urlString) else{
+//            fatalError("baseURL is invalid")
+//        }
+        return urlString
+    }()
+    
     static let path : String = {
         guard let pathString = FetchingAPI.infoDict["path"] as? String else{
             fatalError("path is not found")
         }
         
-//        guard let url = URL(string: pathString) else{
-//            fatalError("path is invalid")
-//        }
         return pathString
     }()
     
+    static let addpath : String = {
+        guard let pathString = FetchingAPI.infoDict["addpath"] as? String else{
+            fatalError("addpath is not found")
+        }
+        
+        return pathString
+    }()
 }

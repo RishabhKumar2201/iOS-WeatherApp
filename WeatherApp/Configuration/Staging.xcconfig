@@ -9,5 +9,8 @@
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
 
 
-baseURL = api.open-meteostaging
+baseURL = api.open-meteo.com
 path = /v1/forecast
+
+addURL = geocoding-api.open-meteo.com
+addpath = /v1/search

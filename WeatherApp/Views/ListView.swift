@@ -1,7 +1,19 @@
 import SwiftUI
 
 struct ListView: View {
-    @StateObject private var viewModel = ListViewModel()
+//    @StateObject private var viewModel = ListViewModel()
+    
+    @StateObject private var viewModel =
+        ListViewModel(
+            weatherService: WeatherService(
+                networkService: HttpNetworking()
+            )
+        )
+
+//    @StateObject private var addLocationViewModel = AddLocationViewModel()
+    @State private var showAddLocationSheet = false
+    @State private var newLocationName = ""
+    
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -42,10 +54,69 @@ struct ListView: View {
                     ToolbarItem(placement: .principal) {
                         Text("Locations").foregroundColor(.white)
                     }
-                }
+                    
+                    ToolbarItem(placement: .topBarTrailing){
+                        Button{
+                            showAddLocationSheet = true
+                        } label:{
+                            Text("+   Location").foregroundColor(.white).padding(.horizontal, 1)
+                        }
+                                        }
+                                    }
                 .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search location or city")
             }
         }
+        .sheet(isPresented: $showAddLocationSheet) {
+            VStack(spacing: 20) {
+                
+                Text("Add Location")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                
+                TextField("Enter city name", text: $newLocationName)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal)
+                
+//                Button {
+//                    Task{
+//                        await viewModel.addLocation(name: newLocationName)
+//                    }
+//                    showAddLocationSheet = false
+//                    newLocationName = ""
+//                } label: {
+//                    Text("Add")
+//                        .foregroundStyle(.white)
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(.blue)
+//                        .clipShape(RoundedRectangle(cornerRadius: 10))
+//                }
+                
+                Button {
+                    Task {
+                        await viewModel.addLocation(name: newLocationName)
+                        
+                        showAddLocationSheet = false
+                        newLocationName = ""
+                    }
+                } label: {
+                    Text("Add")
+                        .foregroundStyle(.white)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(.blue)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+
+                
+                .padding(.horizontal)
+                .disabled(newLocationName.trimmingCharacters(in: .whitespaces).isEmpty)
+                
+                Spacer()
+            }
+            .padding()
+        }
+
     }
 }
 
